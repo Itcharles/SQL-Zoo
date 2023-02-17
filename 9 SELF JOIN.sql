@@ -101,3 +101,20 @@ FROM route a JOIN route b ON (a.company=b.company AND a.num=b.num)
 JOIN stops c ON a.stop=c.id JOIN stops d ON b.stop=d.id
 WHERE c.name='Craiglockhart'  AND a.company='LRT'
 
+
+10.
+Find the routes involving two buses that can go from Craiglockhart to Lochend.
+Show the bus no. and company for the first bus, the name of the stop for the transfer,
+and the bus no. and company for the second bus.
+
+Hint
+Self-join twice to find buses that visit Craiglockhart and Lochend, then join those on matching stops.
+
+SELECT a.num, a.company,  stops.name,  d.num, d.company
+FROM route a JOIN route b ON a.company = b.company AND a.num = b.num
+JOIN stops ON b.stop = stops.id
+JOIN route c ON c.stop = stops.id
+JOIN route d ON c.company = d.company AND c.num = d.num
+WHERE a.stop = (SELECT id FROM stops WHERE name = 'Craiglockhart')
+AND d.stop = (SELECT id FROM stops WHERE name = 'Lochend')
+ORDER BY a.num, stops.name, d.num
