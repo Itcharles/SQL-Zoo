@@ -47,3 +47,37 @@ SELECT name, DATE_FORMAT(whn,'%Y-%m-%d'), confirmed-LAG(confirmed,1) OVER(PARTIT
 WHERE name = 'Italy'
 AND WEEKDAY(whn) = 0 AND YEAR(whn) = 2020
 ORDER BY whn
+
+5.
+Show the number of new cases in Italy for each week - show Monday only.
+
+In the sample query we JOIN this week tw with last week lw using the DATE_ADD function.
+
+SELECT tw.name, DATE_FORMAT(tw.whn,'%Y-%m-%d'), 
+ tw.confirmed-lw.confirmed
+ FROM covid tw LEFT JOIN covid lw ON 
+  DATE_ADD(lw.whn, INTERVAL 1 WEEK) = tw.whn
+   AND tw.name=lw.name
+WHERE tw.name = 'Italy' AND WEEKDAY(tw.whn) = 0 
+ORDER BY tw.whn
+
+
+RANK()
+6.
+This query shows the number of confirmed cases together with the world ranking for cases for the date '2020-04-20'. The number of COVID deaths is also shown.
+
+United States has the highest number, Spain is number 2...
+
+Notice that while Spain has the second highest confirmed cases, Italy has the second highest number of deaths due to the virus.
+
+Add a column to show the ranking for the number of deaths due to COVID.
+
+SELECT 
+   name,
+   confirmed,
+   RANK() OVER (ORDER BY confirmed DESC) rc,
+   deaths,RANK() OVER (ORDER BY deaths DESC) 
+  FROM covid
+WHERE whn = '2020-04-20'
+ORDER BY confirmed DESC
+
