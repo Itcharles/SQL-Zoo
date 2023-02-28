@@ -81,3 +81,34 @@ SELECT
 WHERE whn = '2020-04-20'
 ORDER BY confirmed DESC
 
+7. 
+This query includes a JOIN t the world table so we can access the total population of each country and calculate infection rates (in cases per 100,000).
+
+Show the infection rate ranking for each country. Only include countries with a population of at least 10 million.
+
+SOME data is still incorrect
+
+SELECT 
+   world.name,
+   ROUND(100000*confirmed/population,2) AS el, RANK()OVER(ORDER BY el)
+  FROM covid JOIN world ON covid.name=world.name
+WHERE whn = '2020-04-20' AND population >= 10000000
+ORDER BY population DESC
+
+
+Turning the corner
+8.
+For each country that has had at last 1000 new cases in a single day, show the date of the peak number of new cases.
+
+WITH table1 AS(
+SELECT name, DATE_FORMAT(whn,'%Y-%M-%D')AS date,confirmed- LAG(confirmed,1) OVER(PARTITION BY name ORDER BY whn) AS new_cases
+FROM covid
+), table2 AS(
+SELECT *,RANK()OVER(PARTITION BY name ORDER BY new_cases DESC) AS rank
+FROM table1
+WHERE new_cases>= '1000'
+)
+SELECT name, date,new_cases
+FROM table2
+WHERE rank = 1
+ORDER BY date
