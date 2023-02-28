@@ -101,7 +101,7 @@ Turning the corner
 For each country that has had at last 1000 new cases in a single day, show the date of the peak number of new cases.
 
 WITH table1 AS(
-SELECT name, DATE_FORMAT(whn,'%Y-%M-%D')AS date,confirmed- LAG(confirmed,1) OVER(PARTITION BY name ORDER BY whn) AS new_cases
+SELECT name, DATE_FORMAT(whn,'%Y-%m-%d')AS date,confirmed- LAG(confirmed,1) OVER(PARTITION BY name ORDER BY whn) AS new_cases
 FROM covid
 ), table2 AS(
 SELECT *,RANK()OVER(PARTITION BY name ORDER BY new_cases DESC) AS rank
