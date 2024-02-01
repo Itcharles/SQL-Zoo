@@ -51,7 +51,16 @@ SELECT constituency,party
 FROM table1
 WHERE posn=1
 
+Solution 2:
 
+select constituency,party from (SELECT constituency,party, votes,RANK() over (partition by constituency order by votes desc) as r
+  FROM ge
+  WHERE constituency BETWEEN 'S14000021' AND 'S14000026'
+  AND yr  = 2017
+  ORDER BY r , constituency
+) x
+where x.r=1
+  
 6.
 You can use COUNT and GROUP BY to see how each party did in Scotland. Scottish constituencies start with 'S'
 
