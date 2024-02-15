@@ -11,7 +11,8 @@ AND MONTH(whn) = 3 AND YEAR(whn) = 2020
 ORDER BY whn
 
 2.
-The LAG function is used to show data from the preceding row or the table. When lining up rows the data is partitioned by country name and ordered by the data whn. That means that only data from Italy is considered.
+The LAG function is used to show data from the preceding row or the table. When lining up rows the data is partitioned by 
+ country name and ordered by the data whn. That means that only data from Italy is considered.
 
 Modify the query to show confirmed for the day before.
 
@@ -64,7 +65,8 @@ ORDER BY tw.whn
 
 RANK()
 6.
-This query shows the number of confirmed cases together with the world ranking for cases for the date '2020-04-20'. The number of COVID deaths is also shown.
+This query shows the number of confirmed cases together with the world ranking for cases for the date '2020-04-20'. 
+ The number of COVID deaths is also shown.
 
 United States has the highest number, Spain is number 2...
 
@@ -82,7 +84,8 @@ WHERE whn = '2020-04-20'
 ORDER BY confirmed DESC
 
 7. 
-This query includes a JOIN t the world table so we can access the total population of each country and calculate infection rates (in cases per 100,000).
+This query includes a JOIN t the world table so we can access the total population of each country and calculate infection rates
+ (in cases per 100,000).
 
 Show the infection rate ranking for each country. Only include countries with a population of at least 10 million.
 
